@@ -1,0 +1,953 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NEWNAL — AI OS Phone</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=Space+Mono:wght@400;700&family=Noto+Sans+KR:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --black: #000000;
+    --white: #ffffff;
+    --blue: #4D9FFF;
+    --blue-dim: #2b7fe0;
+    --gray-dark: #111111;
+    --gray-mid: #1a1a1a;
+    --gray-line: #222222;
+    --text-muted: #666666;
+  }
+
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--black);
+    color: var(--white);
+    font-family: 'Noto Sans KR', sans-serif;
+    font-weight: 300;
+    overflow-x: hidden;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 24px 60px;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+    background: rgba(0,0,0,0.85);
+    backdrop-filter: blur(16px);
+  }
+  .nav-logo {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: 20px;
+    letter-spacing: 0.15em;
+    color: #ffffff;
+    text-transform: uppercase;
+  }
+  .nav-cta {
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--black);
+    background: var(--blue);
+    border: none;
+    padding: 10px 24px;
+    cursor: pointer;
+    transition: opacity 0.2s;
+  }
+  .nav-cta:hover { opacity: 0.85; }
+
+  /* ── READING FLOW SECTIONS ── */
+  .rf-section {
+    padding: 120px 0;
+    border-bottom: 1px solid var(--gray-line);
+    opacity: 0;
+    transform: translateY(40px);
+    transition: opacity 0.8s ease, transform 0.8s ease;
+  }
+  .rf-section.visible { opacity: 1; transform: translateY(0); }
+
+  .rf-inner {
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 0 60px;
+  }
+
+  /* section number tag */
+  .sec-num {
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    color: var(--blue);
+    margin-bottom: 40px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .sec-num::before {
+    content: '';
+    display: block;
+    width: 28px; height: 1px;
+    background: var(--blue);
+  }
+
+  /* title — biggest */
+  .rf-title {
+    font-family: 'Noto Sans KR', sans-serif;
+    font-weight: 900;
+    font-size: clamp(36px, 5vw, 64px);
+    line-height: 1.2;
+    letter-spacing: -0.02em;
+    margin-bottom: 32px;
+    word-break: keep-all;
+  }
+  .rf-title .accent { color: var(--blue); }
+
+  /* message — medium */
+  .rf-message {
+    font-size: clamp(18px, 2vw, 24px);
+    font-weight: 400;
+    line-height: 1.8;
+    color: rgba(255,255,255,0.75);
+    margin-bottom: 48px;
+    word-break: keep-all;
+  }
+  .rf-message .accent { color: var(--blue); font-weight: 500; }
+
+  /* body — smaller */
+  .rf-body {
+    font-size: 16px;
+    font-weight: 300;
+    line-height: 2.0;
+    color: rgba(255,255,255,0.5);
+    word-break: keep-all;
+  }
+  .rf-body .accent { color: var(--blue); }
+
+  /* bullet list */
+  .rf-list {
+    list-style: none;
+    margin: 32px 0;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .rf-list li {
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+    font-size: 17px;
+    font-weight: 400;
+    line-height: 1.7;
+    color: rgba(255,255,255,0.65);
+    word-break: keep-all;
+  }
+  .rf-list li::before {
+    content: '•';
+    color: var(--blue);
+    font-size: 18px;
+    margin-top: 2px;
+    flex-shrink: 0;
+  }
+
+  /* divider line */
+  .rf-divider {
+    width: 48px; height: 1px;
+    background: var(--gray-line);
+    margin: 48px 0;
+  }
+
+  /* callout box */
+  .rf-callout {
+    border-left: 2px solid var(--blue);
+    padding: 24px 32px;
+    background: rgba(77,159,255,0.04);
+    margin: 40px 0;
+  }
+  .rf-callout p {
+    font-size: 17px;
+    line-height: 1.8;
+    color: rgba(255,255,255,0.7);
+    word-break: keep-all;
+  }
+  .rf-callout strong { color: var(--white); font-weight: 500; }
+
+  /* image placeholder */
+  .img-ph {
+    width: 100%;
+    border: 1px dashed rgba(255,255,255,0.1);
+    background: var(--gray-mid);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    color: rgba(255,255,255,0.2);
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    text-align: center;
+    padding: 48px 24px;
+    margin: 48px 0;
+  }
+  .img-ph svg { width: 28px; height: 28px; stroke: rgba(255,255,255,0.15); fill: none; }
+
+  /* ── HERO GRID ── */
+  .hero {
+    min-height: 100vh;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+    gap: 60px;
+    padding: 160px 60px 120px;
+    max-width: 1100px;
+    margin: 0 auto;
+    position: relative;
+  }
+  .hero-left {}
+  .hero-right {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+  }
+  .phone-mock {
+    width: 240px;
+    height: 480px;
+    border: 1px solid rgba(77,159,255,0.3);
+    border-radius: 36px;
+    background: linear-gradient(160deg, rgba(77,159,255,0.07), rgba(0,0,0,0));
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    box-shadow: 0 0 80px rgba(77,159,255,0.12), 0 0 160px rgba(77,159,255,0.05);
+  }
+  .phone-mock::before {
+    content: '';
+    position: absolute;
+    top: 16px;
+    width: 60px; height: 6px;
+    border-radius: 3px;
+    background: rgba(77,159,255,0.2);
+  }
+  .phone-mock-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: rgba(77,159,255,0.4);
+    text-align: center;
+    padding: 0 20px;
+    line-height: 1.8;
+  }
+  .phone-mock svg { width: 28px; height: 28px; stroke: rgba(77,159,255,0.3); fill: none; }
+  .orbit {
+    position: absolute;
+    border-radius: 50%;
+    border: 1px solid rgba(77,159,255,0.06);
+  }
+  .orbit-1 { width: 360px; height: 360px; animation: spin 20s linear infinite; }
+  .orbit-2 { width: 460px; height: 460px; animation: spin 30s linear infinite reverse; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  .hero-eyebrow {
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--blue);
+    margin-bottom: 40px;
+    display: flex; align-items: center; gap: 12px;
+    opacity: 0; animation: fadeUp 0.8s 0.2s forwards;
+  }
+  .hero-eyebrow::before { content: ''; display: block; width: 28px; height: 1px; background: var(--blue); }
+
+  .hero-h1 {
+    font-family: 'Noto Sans KR', sans-serif;
+    font-weight: 900;
+    font-size: clamp(44px, 6vw, 88px);
+    line-height: 1.15;
+    letter-spacing: -0.03em;
+    margin-bottom: 40px;
+    word-break: keep-all;
+    opacity: 0; animation: fadeUp 0.8s 0.4s forwards;
+  }
+  .hero-h1 em { font-style: normal; color: var(--blue); }
+
+  .hero-sub {
+    font-size: clamp(16px, 1.6vw, 20px);
+    font-weight: 300;
+    line-height: 1.9;
+    color: rgba(255,255,255,0.5);
+    max-width: 580px;
+    margin-bottom: 60px;
+    word-break: keep-all;
+    opacity: 0; animation: fadeUp 0.8s 0.6s forwards;
+  }
+
+  .hero-actions {
+    display: flex; gap: 16px;
+    opacity: 0; animation: fadeUp 0.8s 0.8s forwards;
+  }
+  .btn-primary {
+    font-family: 'Space Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    background: var(--blue);
+    color: var(--black);
+    border: none;
+    padding: 16px 36px;
+    cursor: pointer;
+    font-weight: 700;
+    transition: opacity 0.2s;
+  }
+  .btn-primary:hover { opacity: 0.85; }
+  .btn-secondary {
+    font-family: 'Space Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    background: transparent;
+    color: var(--white);
+    border: 1px solid rgba(255,255,255,0.2);
+    padding: 16px 36px;
+    cursor: pointer;
+    transition: border-color 0.2s, color 0.2s;
+  }
+  .btn-secondary:hover { border-color: var(--blue); color: var(--blue); }
+
+  /* ── TICKER ── */
+  .ticker {
+    border-top: 1px solid var(--gray-line);
+    border-bottom: 1px solid var(--gray-line);
+    overflow: hidden;
+    white-space: nowrap;
+    padding: 16px 0;
+    background: var(--gray-dark);
+  }
+  .ticker-inner {
+    display: inline-flex;
+    gap: 64px;
+    animation: ticker 30s linear infinite;
+  }
+  .ticker-item {
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    display: flex; align-items: center; gap: 16px;
+  }
+  .ticker-dot { width: 4px; height: 4px; border-radius: 50%; background: var(--blue); flex-shrink: 0; }
+
+  /* ── TIMELINE (section 7) ── */
+  .timeline {
+    display: flex;
+    gap: 0;
+    margin-top: 48px;
+    position: relative;
+  }
+  .timeline::before {
+    content: '';
+    position: absolute;
+    top: 24px; left: 0; right: 0;
+    height: 1px;
+    background: var(--gray-line);
+  }
+  .tl-item { flex: 1; padding: 0 16px; text-align: center; }
+  .tl-dot {
+    width: 48px; height: 48px;
+    border-radius: 50%;
+    background: var(--black);
+    border: 1px solid var(--gray-line);
+    display: flex; align-items: center; justify-content: center;
+    margin: 0 auto 24px;
+    position: relative; z-index: 1;
+    font-family: 'Space Mono', monospace;
+    font-size: 9px;
+    color: var(--text-muted);
+  }
+  .tl-item.now .tl-dot {
+    border-color: var(--blue);
+    color: var(--blue);
+    box-shadow: 0 0 20px rgba(77,159,255,0.2);
+  }
+  .tl-year {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: 24px;
+    margin-bottom: 10px;
+  }
+  .tl-item.now .tl-year { color: var(--blue); }
+  .tl-label { font-size: 13px; line-height: 1.6; color: rgba(255,255,255,0.4); }
+
+  /* ── SIGNAL DEMO ── */
+  .signal-list { display: flex; flex-direction: column; gap: 10px; margin: 40px 0; }
+  .signal-card {
+    background: var(--gray-mid);
+    border: 1px solid var(--gray-line);
+    padding: 18px 24px;
+    display: flex; align-items: center; gap: 16px;
+    transition: border-color 0.3s, transform 0.3s;
+  }
+  .signal-card:hover { border-color: rgba(77,159,255,0.3); transform: translateX(6px); }
+  .signal-dot-live {
+    width: 8px; height: 8px; border-radius: 50%;
+    background: var(--blue); flex-shrink: 0;
+    animation: pulse 2s infinite;
+  }
+  .signal-text { font-size: 15px; line-height: 1.5; color: rgba(255,255,255,0.7); }
+  .signal-sub {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    color: var(--text-muted);
+    margin-top: 4px;
+  }
+
+  /* ── COMING SOON BOX ── */
+  .coming-soon {
+    display: inline-block;
+    border: 1px solid rgba(77,159,255,0.3);
+    padding: 16px 40px;
+    background: rgba(77,159,255,0.04);
+    margin-top: 32px;
+  }
+  .coming-soon span {
+    font-family: 'Space Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--blue);
+  }
+
+  /* ── CTA SECTION ── */
+  .cta-section {
+    padding: 160px 60px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .cta-section::before {
+    content: '';
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%,-50%);
+    width: 700px; height: 700px;
+    background: radial-gradient(circle, rgba(77,159,255,0.06) 0%, transparent 65%);
+    pointer-events: none;
+  }
+  .cta-section .rf-title { margin-bottom: 24px; }
+  .cta-section .rf-message { margin: 0 auto 16px; max-width: 640px; }
+  .cta-section .rf-body { max-width: 560px; margin: 0 auto 48px; }
+  .cta-big {
+    font-family: 'Noto Sans KR', sans-serif;
+    font-weight: 900;
+    font-size: clamp(32px, 4vw, 56px);
+    line-height: 1.3;
+    margin-bottom: 16px;
+    word-break: keep-all;
+  }
+  .cta-actions { display: flex; gap: 16px; justify-content: center; margin-top: 48px; }
+
+  /* ── FOOTER ── */
+  footer {
+    border-top: 1px solid var(--gray-line);
+    padding: 48px 60px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .footer-logo {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: 16px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: #ffffff;
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    color: var(--text-muted);
+  }
+
+  /* ── IP LIST ── */
+  .ip-row {
+    background: var(--black);
+    padding: 20px 28px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    transition: background 0.2s;
+  }
+  .ip-row:hover { background: var(--gray-mid); }
+  .ip-badge-wrap { display: flex; gap: 6px; margin-bottom: 4px; }
+  .ip-badge {
+    font-family: 'Space Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.1em;
+    padding: 3px 8px;
+    border: 1px solid;
+    text-transform: uppercase;
+  }
+  .ip-badge.uspto { color: #4D9FFF; border-color: rgba(77,159,255,0.3); background: rgba(77,159,255,0.07); }
+  .ip-badge.kipo  { color: #aaa; border-color: rgba(255,255,255,0.15); background: rgba(255,255,255,0.04); }
+  .ip-badge.epo   { color: #ffcc55; border-color: rgba(255,204,85,0.3); background: rgba(255,204,85,0.07); }
+  .ip-badge.wipo  { color: #88ccff; border-color: rgba(136,204,255,0.3); background: rgba(136,204,255,0.07); }
+  .ip-title {
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 1.5;
+    color: rgba(255,255,255,0.85);
+  }
+  .ip-desc {
+    font-size: 12px;
+    color: var(--text-muted);
+    line-height: 1.5;
+  }
+  .ip-num {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    color: rgba(255,255,255,0.25);
+    letter-spacing: 0.05em;
+  }
+
+  /* ── ANIMATIONS ── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(32px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes ticker {
+    from { transform: translateX(0); }
+    to   { transform: translateX(-50%); }
+  }
+  @keyframes pulse {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(77,159,255,0.4); }
+    50%       { box-shadow: 0 0 0 8px rgba(77,159,255,0); }
+  }
+
+  @media (max-width: 768px) {
+    nav { padding: 20px 24px; }
+    .hero { grid-template-columns: 1fr; padding: 120px 24px 80px; }
+    .hero-right { display: none; }
+    .rf-inner { padding-left: 24px; padding-right: 24px; }
+    .cta-section { padding: 100px 24px; }
+    footer { flex-direction: column; gap: 20px; text-align: center; }
+    .timeline { flex-direction: column; gap: 32px; }
+    .timeline::before { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">Newnal</div>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-left">
+    <div class="hero-eyebrow">Newnal AIOS Phone</div>
+    <h1 class="hero-h1">AI가 들어간 폰이<br>아닙니다.<br><em>AI가 중심이 된<br>폰입니다.</em></h1>
+    <p class="hero-sub">우리는 또 하나의 스마트폰을 만들지 않았습니다.<br>우리는 AI 시대의 새로운 운영체제를 만들었습니다.<br>그리고 그 OS를 가장 완벽하게 경험할 수 있는 기기,<br>그것이 Newnal AIOS Phone입니다.</p>
+  </div>
+  <div class="hero-right">
+    <div class="orbit orbit-1"></div>
+    <div class="orbit orbit-2"></div>
+    <div class="phone-mock">
+      <svg viewBox="0 0 24 24" stroke-width="1"><rect x="5" y="2" width="14" height="20" rx="3"/><path d="M12 18h.01"/></svg>
+      <div class="phone-mock-label">제품 이미지<br>AIOS Phone<br>front / side view</div>
+    </div>
+  </div>
+</div>
+
+<!-- 1. 지금의 AI는 왜 불편할까요? -->
+<section class="rf-section">
+  <div class="rf-inner">
+    <div class="sec-num">01 — 지금의 AI는 왜 불편할까요?</div>
+    <h2 class="rf-title">AI는 똑똑합니다.<br>하지만 <span class="accent">나를 모릅니다.</span></h2>
+    <p class="rf-message">
+      하지만 여전히 이렇게 사용하고 있습니다.
+    </p>
+    <ul class="rf-list">
+      <li>매번 설명해야 하고</li>
+      <li>매번 입력해야 하고</li>
+      <li>매번 나를 다시 알려줘야 합니다</li>
+    </ul>
+    <div class="rf-divider"></div>
+    <p class="rf-body">
+      AI는 세상을 학습했지만 당신을 학습하지는 않았습니다.<br><br>
+      그래서 Newnal은 질문을 바꿨습니다.<br><br>
+      <span class="accent">"AI를 더 잘 만드는 방법이 아니라,<br>나를 이해하는 AI를 만드는 방법은 무엇일까?"</span>
+    </p>
+  </div>
+</section>
+
+<!-- 2. MY AI -->
+<section class="rf-section" style="background:var(--gray-dark);">
+  <div class="rf-inner">
+    <div class="sec-num">02 — MY AI – 나로 만들어진 AI</div>
+    <h2 class="rf-title">당신만의 AI를<br><span class="accent">만드는 사람</span>이 됩니다.</h2>
+    <p class="rf-message">
+      Newnal AIOS의 시작은 단 하나입니다.<br>
+      <span class="accent">"내 데이터는 어디에 있는가?"</span>
+    </p>
+    <p class="rf-body">
+      지금 당신의 데이터는 구글, 메타, 쇼핑몰, 배달앱, 커피앱, 카드사 서버에 흩어져 있습니다.<br>
+      하지만 정작 당신은 그 데이터를 제대로 활용하지 못합니다.
+    </p>
+    <div class="rf-divider"></div>
+    <p class="rf-message">Newnal은 다르게 설계했습니다.</p>
+    <ul class="rf-list">
+      <li>내 데이터는 내가 통제합니다</li>
+      <li>허락 없이는 누구도 접근할 수 없습니다</li>
+      <li>어떤 데이터가 언제 어떻게 쓰였는지 확인할 수 있습니다</li>
+    </ul>
+    <p class="rf-body">
+      그리고 그 데이터로 <span class="accent">'My AI'</span>가 만들어집니다.<br><br>
+      이제 당신은 AI를 쓰는 사용자가 아닙니다.<br>
+      당신만의 AI를 만드는 사람이 됩니다.
+    </p>
+    <div class="img-ph">
+      <svg viewBox="0 0 24 24" stroke-width="1.5"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+      이미지: My AI 생성 과정 / 데이터 흐름 인포그래픽
+    </div>
+  </div>
+</section>
+
+<!-- 3. 입력하지 않아도 되는 AI -->
+<section class="rf-section">
+  <div class="rf-inner">
+    <div class="sec-num">03 — 입력하지 않아도 되는 AI</div>
+    <h2 class="rf-title">평소에는 조용합니다.<br>하지만 <span class="accent">AI가 할 말이 생기면<br>먼저 알려줍니다.</span></h2>
+    <p class="rf-message">
+      지금의 AI는 "사용자 입력 중심"입니다.<br>
+      하지만 생각해보세요.<br>
+      AI가 나를 이해한다면, 내가 매번 설명할 필요가 있을까요?
+    </p>
+    <div class="rf-callout">
+      <p>Newnal AIOS는 UI(User Interface)가 아니라<br>
+      <strong>AI Interface</strong>입니다.<br><br>
+      화면에 나타나는 하나의 신호.<br>
+      그건 단순한 알림이 아닙니다.<br>
+      <strong>"내 AI가 나에게 제안이 있다"</strong>는 신호입니다.</p>
+    </div>
+    <p class="rf-message" style="margin-bottom:24px;">예를 들면:</p>
+    <div class="signal-list">
+      <div class="signal-card">
+        <div class="signal-dot-live"></div>
+        <div>
+          <div class="signal-text">당신의 스타일에 맞는 안경 추천</div>
+          <div class="signal-sub">MY AI 제안 · 방금 전</div>
+        </div>
+      </div>
+      <div class="signal-card">
+        <div class="signal-dot-live"></div>
+        <div>
+          <div class="signal-text">오래 고민하던 러닝화, 가격까지 비교 완료</div>
+          <div class="signal-sub">MY AI 제안 · 5분 전</div>
+        </div>
+      </div>
+      <div class="signal-card">
+        <div class="signal-dot-live"></div>
+        <div>
+          <div class="signal-text">부모님 결혼기념일, 편지 초안 작성</div>
+          <div class="signal-sub">MY AI 제안 · 1시간 전</div>
+        </div>
+      </div>
+      <div class="signal-card">
+        <div class="signal-dot-live"></div>
+        <div>
+          <div class="signal-text">잊고 있던 송금 알림</div>
+          <div class="signal-sub">MY AI 제안 · 오늘</div>
+        </div>
+      </div>
+      <div class="signal-card">
+        <div class="signal-dot-live"></div>
+        <div>
+          <div class="signal-text">오늘 당신 기분에 맞는 음악 추천</div>
+          <div class="signal-sub">MY AI 제안 · 오늘</div>
+        </div>
+      </div>
+    </div>
+    <div class="rf-callout" style="margin-top:40px;">
+      <p>⚠ <strong>AI는 먼저 제안하지만</strong><br>
+      ❗ <strong>절대 먼저 결정하지 않습니다.</strong><br><br>
+      결정권은 항상 당신에게 있습니다.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 4. 앱 없이 서비스가 연결되는 세상 -->
+<section class="rf-section" style="background:var(--gray-dark);">
+  <div class="rf-inner">
+    <div class="sec-num">04 — 앱 없이 서비스가 연결되는 세상</div>
+    <h2 class="rf-title">이제 당신이 서비스에<br>로그인하지 않습니다.<br><span class="accent">서비스가 당신의 AI에게<br>접근 권한을 요청합니다.</span></h2>
+    <p class="rf-message">
+      지금 우리는 서비스를 쓰기 위해:
+    </p>
+    <ul class="rf-list">
+      <li>앱을 다운로드하고</li>
+      <li>로그인하고</li>
+      <li>비밀번호 만들고</li>
+      <li>인증하고</li>
+      <li>카드 등록합니다</li>
+    </ul>
+    <p class="rf-message">Newnal은 이 구조를 뒤집었습니다.<br><span class="accent">Reverse Login.</span></p>
+    <p class="rf-body">
+      당신이 허락하면 그때만 데이터가 연결됩니다.
+    </p>
+    <ul class="rf-list" style="margin-top:24px;">
+      <li>데이터는 당신 소유</li>
+      <li>권한은 당신 통제</li>
+      <li>기록은 투명하게 확인 가능</li>
+    </ul>
+    <div class="rf-divider"></div>
+    <p class="rf-body">
+      이 생태계를 우리는 <span class="accent">Agent Place</span>라고 부릅니다.<br><br>
+      앞으로 다양한 전문 AI 에이전트들이<br>
+      당신의 허락 하에 당신을 위해 일하게 됩니다.
+    </p>
+    <div class="img-ph">
+      <svg viewBox="0 0 24 24" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>
+      이미지: Agent Place 생태계 / Reverse Login 흐름 다이어그램
+    </div>
+  </div>
+</section>
+
+<!-- 5. 안드로이드 호환 -->
+<section class="rf-section">
+  <div class="rf-inner">
+    <div class="sec-num">05 — 안드로이드도 그대로 사용 가능합니다</div>
+    <h2 class="rf-title">우리는 단절하지 않았습니다.<br><span class="accent">연결했습니다.</span></h2>
+    <p class="rf-message">
+      "그럼 기존 앱은 못 쓰나요?"<br>
+      걱정하지 마세요.
+    </p>
+    <p class="rf-body">
+      Newnal AIOS는 Android와 함께 동작합니다.<br><br>
+      필요할 때는 기존 앱을 그대로 사용하고<br>
+      AI가 필요할 때는 AI 모드로 전환합니다.
+    </p>
+  </div>
+</section>
+
+<!-- 6. 온보딩 -->
+<section class="rf-section" style="background:var(--gray-dark);">
+  <div class="rf-inner">
+    <div class="sec-num">06 — 온보딩 – 10분이면 시작됩니다</div>
+    <h2 class="rf-title"><span class="accent">10분</span>이면<br>My AI가 시작됩니다.</h2>
+    <p class="rf-message">
+      "My AI는 오래 써야 학습되나요?"<br><br>
+      Newnal은 한 가지 중요한 통찰을 발견했습니다.<br>
+      사람은 <span class="accent">"있는 그대로의 나"</span>보다<br>
+      <span class="accent">"되고 싶은 나"</span>를 반영한 AI를 원합니다.
+    </p>
+    <ul class="rf-list">
+      <li>10분 온보딩으로</li>
+      <li>이상적인 나를 설정하고</li>
+      <li>즉시 My AI를 생성합니다</li>
+    </ul>
+    <div class="rf-divider"></div>
+    <p class="rf-body">
+      이후 사용하면서 실제 데이터와 만나 점점 고도화됩니다.<br><br>
+      AI를 사용하는 경험이 아니라,<br>
+      <span class="accent">AI를 함께 성장시키는 경험입니다.</span>
+    </p>
+    <div class="img-ph">
+      <svg viewBox="0 0 24 24" stroke-width="1.5"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4"/></svg>
+      이미지: 온보딩 UI 화면 플로우 / 10분 설정 과정 목업
+    </div>
+  </div>
+</section>
+
+<!-- 7. 하드웨어 경쟁 안 함 -->
+<section class="rf-section">
+  <div class="rf-inner">
+    <div class="sec-num">07 — 우리는 하드웨어 경쟁을 하지 않습니다</div>
+    <h2 class="rf-title">우리가 만든 것은<br>하드웨어가 아니라<br><span class="accent">AI 시대의 OS입니다.</span></h2>
+    <p class="rf-message">
+      더 좋은 카메라. 더 얇은 두께. 더 강한 소재.<br>
+      우리는 그 경쟁을 하지 않았습니다.
+    </p>
+    <div class="timeline">
+      <div class="tl-item">
+        <div class="tl-dot">95</div>
+        <div class="tl-year">1995</div>
+        <div class="tl-label">Windows 95<br>PC 컴퓨팅 시대</div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot">07</div>
+        <div class="tl-year">2007</div>
+        <div class="tl-label">iOS<br>모바일 시대</div>
+      </div>
+      <div class="tl-item now">
+        <div class="tl-dot">NOW</div>
+        <div class="tl-year">지금</div>
+        <div class="tl-label">Newnal AIOS<br>AI Computing Era</div>
+      </div>
+    </div>
+    <div class="rf-divider"></div>
+    <p class="rf-body">
+      이제 필요한 것은 <span class="accent">AI를 위한 OS</span>입니다.
+    </p>
+  </div>
+</section>
+
+<!-- 8. 그리고 하나 더 -->
+<section class="rf-section" style="background:var(--gray-dark);">
+  <div class="rf-inner">
+    <div class="sec-num">08 — 그리고 하나 더</div>
+    <h2 class="rf-title">우리는 폰만 다시<br>정의하지 않았습니다.<br><span class="accent">Phone Number도<br>다시 생각했습니다.</span></h2>
+    <p class="rf-message">
+      100년 넘게 사용한 단 하나의 전화번호 구조.<br>
+      모든 관계가 하나의 번호로 묶여<br>
+      스팸과 광고에 노출됩니다.
+    </p>
+    <p class="rf-body">
+      Newnal은 AI 시대에 맞는<br>
+      새로운 통신 구조를 준비하고 있습니다.
+    </p>
+    <div class="coming-soon"><span>Coming Soon</span></div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section rf-section">
+  <div class="rf-inner" style="text-align:center;">
+    <div class="sec-num" style="justify-content:center;">NEWNAL AIOS PHONE</div>
+    <div class="cta-big">당신이 주인공이 되는 폰</div>
+    <div class="cta-big" style="color:var(--blue);">당신이 중심이 되는 AI</div>
+    <div class="cta-big">당신이 통제하는 데이터</div>
+    <div class="rf-divider" style="margin:48px auto;"></div>
+    <p class="rf-message" style="margin:0 auto 16px;max-width:640px;">
+      AI가 세상의 중심이 되는 것이 아니라<br>
+      <span class="accent">당신이 중심이 되는 AI 시대</span>
+    </p>
+    <p class="rf-title" style="font-size:clamp(28px,4vw,52px);">Newnal이 시작합니다.</p>
+    <div class="img-ph" style="max-width:600px;margin:64px auto 0;">
+      <svg viewBox="0 0 24 24" stroke-width="1.5"><rect x="5" y="2" width="14" height="20" rx="2"/><path d="M12 18h.01"/></svg>
+      이미지: AIOS Phone 제품 메인 사진 또는 라이프스타일 컷
+    </div>
+  </div>
+</section>
+
+<!-- IP / 백서 -->
+<section class="rf-section" style="background:var(--gray-dark);">
+  <div class="rf-inner">
+    <div class="sec-num">Technical Whitepapers &amp; Patents</div>
+    <h2 class="rf-title" style="font-size:clamp(28px,3vw,42px);">기술 백서 &amp; 특허</h2>
+    <p class="rf-body" style="margin-bottom:56px;">February 2026 — <em style="font-style:italic;color:var(--text-muted);">This document is managed as a CONFIDENTIAL DOCUMENT by Newnal Inc.</em></p>
+
+    <!-- Technical Whitepapers -->
+    <div style="margin-bottom:64px;">
+      <div style="font-family:'Space Mono',monospace;font-size:10px;letter-spacing:0.2em;text-transform:uppercase;color:var(--blue);margin-bottom:24px;display:flex;align-items:center;gap:12px;">
+        <span style="display:block;width:20px;height:1px;background:var(--blue);"></span>Technical Whitepapers
+      </div>
+      <div style="display:flex;flex-direction:column;gap:1px;background:var(--gray-line);">
+        <div class="ip-row"><div class="ip-title">Newnal Web3 ai Technical Whitepaper</div><div class="ip-desc">'My own ai' (another-i) model that learns from personal data</div></div>
+        <div class="ip-row"><div class="ip-title">Newnal Web3 ai OS Technical Whitepaper</div><div class="ip-desc">Blockchain-based 'Appless OS' architecture for personal AI agents having Web3 ai-ID and Web3 ai-Contract</div></div>
+        <div class="ip-row"><div class="ip-title">Newnal Web3 Telecom Technical Whitepaper</div><div class="ip-desc">Next-generation decentralized and secure communication protocol including AI-involved calls</div></div>
+        <div class="ip-row"><div class="ip-title">Newnal ai Agent Place Technical Whitepaper</div><div class="ip-desc">Marketplace for personal data and ai(another-i) agent service exchange</div></div>
+        <div class="ip-row"><div class="ip-title">Newnal InfraBlockchain Technical Whitepaper</div><div class="ip-desc">Stablecoin-native public federated multi-blockchain network and verifiable web data infrastructure</div></div>
+        <div class="ip-row"><div class="ip-title">Universal Resource Auth (UR-Auth) Protocol and System Architecture Technical Whitepaper</div><div class="ip-desc">Blockchain-based Web-scale Data Ownership Management Technology</div></div>
+        <div class="ip-row"><div class="ip-title">InfraBlockchain Technical Whitepaper</div><div class="ip-desc">Stablecoin as system tx fee token, Transaction-as-a-Vote, Proof-of-Transaction(PoT) consensus algorithm</div></div>
+        <div class="ip-row"><div class="ip-title">ON/OFF-Chain Hybrid Token Exchange System Technical Whitepaper</div><div class="ip-desc">Blockchain-based large-scale high frequency trading system technology</div></div>
+        <div class="ip-row"><div class="ip-title">InfraBlockchain-Substrate Multi-Blockchain Developer Documentation</div><div class="ip-desc"></div></div>
+        <div class="ip-row"><div class="ip-title">InfraBlockchain-Antelope Developer Documentation</div><div class="ip-desc"></div></div>
+        <div class="ip-row"><div class="ip-title">InfraDID Method Specification</div><div class="ip-desc"></div></div>
+        <div class="ip-row"><div class="ip-title">InfraDID W3C DID Spec. Registry (did:infra)</div><div class="ip-desc"></div></div>
+        <div class="ip-row"><div class="ip-title">InfraBlockchain Open-Source Technology</div><div class="ip-desc"></div></div>
+      </div>
+    </div>
+
+    <!-- Utility Patents -->
+    <div style="margin-bottom:64px;">
+      <div style="font-family:'Space Mono',monospace;font-size:10px;letter-spacing:0.2em;text-transform:uppercase;color:var(--blue);margin-bottom:24px;display:flex;align-items:center;gap:12px;">
+        <span style="display:block;width:20px;height:1px;background:var(--blue);"></span>Utility Patents
+      </div>
+      <div style="display:flex;flex-direction:column;gap:1px;background:var(--gray-line);">
+        <div class="ip-row"><div class="ip-badge-wrap"><span class="ip-badge uspto">USPTO</span><span class="ip-badge kipo">KIPO</span><span class="ip-badge epo">EPO</span></div><div class="ip-title">Blockchain-Based Web Data Ownership and Data Access Management Method and System for Tracking AI Data Collection</div><div class="ip-num">US-20250055712-A1 / EP-23195338.1 / 10-2023-0103842</div></div>
+        <div class="ip-row"><div class="ip-badge-wrap"><span class="ip-badge uspto">USPTO</span><span class="ip-badge kipo">KIPO</span></div><div class="ip-title">Personalized AI Action Graph Generation Model Based AI Inference Device</div><div class="ip-num">US-18/779899 / 10-2024-0090806</div></div>
+        <div class="ip-row"><div class="ip-badge-wrap"><span class="ip-badge uspto">USPTO</span><span class="ip-badge kipo">KIPO</span></div><div class="ip-title">A Device and Method for Owning and Trading Verifiable Personal Data Through Blockchain Based Personal Web Nodes</div><div class="ip-num">US-19/038309</div></div>
+        <div class="ip-row"><div class="ip-badge-wrap"><span class="ip-badge uspto">USPTO</span><span class="ip-badge kipo">KIPO</span></div><div class="ip-title">Device for Providing Blockchain DID-Based Multi Cloud Service and Its Operating Method</div><div class="ip-num">US-20240414014-A1 / 10-2023-0073929</div></div>
+        <div class="ip-row"><div class="ip-badge-wrap"><span class="ip-badge uspto">USPTO</span><span class="ip-badge kipo">KIPO</span></div><div class="ip-title">Mobile Device for Operating Personalized On-Device AI Agent Based on Personal Data</div><div class="ip-num">US-19/059568 / 10-2025-0019132</div></div>
+        <div class="ip-row"><div class="ip-badge-wrap"><span class="ip-badge uspto">USPTO</span><span class="ip-badge kipo">KIPO</span></div><div class="ip-title">User Interface for Running a Personalized AI-Dedicated Operating System on Various Types of User Devices</div><div class="ip-num">US-19/277871 / 10-2025-0098140</div></div>
+        <div class="ip-row"><div class="ip-badge-wrap"><span class="ip-badge uspto">USPTO</span></div><div class="ip-title">A Method and System for Collecting and Integrating Past, Present and Future Personal Data to Implement Personalized AI Model and AI Agent Engine</div><div class="ip-num">US-63/763955</div></div>
+        <div class="ip-row"><div class="ip-badge-wrap"><span class="ip-badge uspto">USPTO</span></div><div class="ip-title">Blockchain-Based AI Computing Mobile Operating System for Secure Decentralized Personal Data and Personalized AI Agent Services</div><div class="ip-num">US-63/884059</div></div>
+        <div class="ip-row"><div class="ip-badge-wrap"><span class="ip-badge uspto">USPTO</span><span class="ip-badge kipo">KIPO</span></div><div class="ip-title">Decentralized AI Agent Network System Built Upon Blockchain-Based Web3 AI-ID and Web3 AI-Contract for Verifiable Confidential AI Agent Computing</div><div class="ip-num">US-19/303959, US-63/764594 / 10-2025-0107438</div></div>
+        <div class="ip-row"><div class="ip-badge-wrap"><span class="ip-badge uspto">USPTO</span></div><div class="ip-title">Blockchain-Based AI Agent Service Marketplace System Involving Personal AI Agents and Service AI Agents Utilizing Personal Data</div><div class="ip-num">US-63/865619</div></div>
+        <div class="ip-row"><div class="ip-badge-wrap"><span class="ip-badge uspto">USPTO</span><span class="ip-badge kipo">KIPO</span></div><div class="ip-title">A Device and Method for Extracting and Structuring Verifiable Personal Data from User Input and Output Data Captured on a Device Based on a Multi-Modal and Language AI Model</div><div class="ip-num">US-19/041098 / 10-2024-0014525</div></div>
+        <div class="ip-row"><div class="ip-badge-wrap"><span class="ip-badge uspto">USPTO</span><span class="ip-badge kipo">KIPO</span></div><div class="ip-title">Method and Device for Configuring and Operating Self-Evolving Personal AI Agent Based on Personal Data</div><div class="ip-num">US-19 (in progress) / 10-2026-0012833</div></div>
+        <div class="ip-row"><div class="ip-badge-wrap"><span class="ip-badge uspto">USPTO</span><span class="ip-badge kipo">KIPO</span></div><div class="ip-title">Blockchain-Based Home Node Device and Server-Based Operating System for Providing Personal Data Services and Personal AI Agent Services</div><div class="ip-num">US-19 (in progress) / 10-2026-0013613</div></div>
+        <div class="ip-row"><div class="ip-badge-wrap"><span class="ip-badge uspto">USPTO</span></div><div class="ip-title">Method and System for Adaptive Facial Region Blending in Video Synthesis</div><div class="ip-num">US-63/763302</div></div>
+        <div class="ip-row"><div class="ip-badge-wrap"><span class="ip-badge uspto">USPTO</span><span class="ip-badge wipo">WIPO</span><span class="ip-badge kipo">KIPO</span></div><div class="ip-title">Electronic Device and Method Providing Secret Messenger Function Through End to End Encryption Based on Blockchain DID Technology</div><div class="ip-num">US-19/104055 / WO/2024/048838 / 10-2773087</div></div>
+        <div class="ip-row"><div class="ip-badge-wrap"><span class="ip-badge uspto">USPTO</span><span class="ip-badge kipo">KIPO</span></div><div class="ip-title">Method and Device for Building Decentralized Secure Communication Infrastructure Network Based on Blockchain and DID Technology</div><div class="ip-num">US-19/059751 / 10-2025-0017836</div></div>
+        <div class="ip-row"><div class="ip-badge-wrap"><span class="ip-badge uspto">USPTO</span><span class="ip-badge wipo">WIPO</span><span class="ip-badge kipo">KIPO</span></div><div class="ip-title">Blockchain System to Which Proof-of-Transaction Consensus Algorithm Is Applied, and Method Therefor</div><div class="ip-num">US-11636450-B2 / WO/2019/182202 / 10-225081</div></div>
+        <div class="ip-row"><div class="ip-badge-wrap"><span class="ip-badge uspto">USPTO</span><span class="ip-badge kipo">KIPO</span></div><div class="ip-title">Multi Blockchain Network System Without Native Cryptocurrency Based on Aggregated Proof-of-Transaction Consensus</div><div class="ip-num">US-20240330915-A1 / 1020230042651</div></div>
+        <div class="ip-row"><div class="ip-badge-wrap"><span class="ip-badge kipo">KIPO</span></div><div class="ip-title">Server and Method for Credit Transaction Using Blockchain Network</div><div class="ip-num">10-2249864</div></div>
+        <div class="ip-row"><div class="ip-badge-wrap"><span class="ip-badge wipo">WIPO</span><span class="ip-badge kipo">KIPO</span></div><div class="ip-title">The Trading System and the Method Based on a Blockchain</div><div class="ip-num">WO/2019/035573 / 10-2309819</div></div>
+        <div class="ip-row"><div class="ip-badge-wrap"><span class="ip-badge uspto">USPTO</span><span class="ip-badge wipo">WIPO</span><span class="ip-badge kipo">KIPO</span></div><div class="ip-title">DID Authentication Method Using Smart Card and Smart Card Device</div><div class="ip-num">US-18/709142 / WO/2023/085802 / 10-2023-0165942</div></div>
+        <div class="ip-row"><div class="ip-badge-wrap"><span class="ip-badge kipo">KIPO</span></div><div class="ip-title">The System and the Method for Managing Distribution History Using Non-Fungible Token</div><div class="ip-num">10-2700653</div></div>
+        <div class="ip-row"><div class="ip-badge-wrap"><span class="ip-badge kipo">KIPO</span></div><div class="ip-title">AI Model Training Apparatus and Method for Reading Test Results of a Diagnostic Kit</div><div class="ip-num">10-2613633</div></div>
+        <div class="ip-row"><div class="ip-badge-wrap"><span class="ip-badge kipo">KIPO</span></div><div class="ip-title">A System and Method for Issuing and Verifying Digital Vaccination Certificates</div><div class="ip-num">10-2478963</div></div>
+        <div class="ip-row"><div class="ip-badge-wrap"><span class="ip-badge uspto">USPTO</span><span class="ip-badge wipo">WIPO</span><span class="ip-badge kipo">KIPO</span></div><div class="ip-title">Method and System for Providing Certification of Vaccine Inoculation and Post-Inoculation Management</div><div class="ip-num">US-20240185994-A1 / WO/2022/196851 / 10-2488139</div></div>
+        <div class="ip-row"><div class="ip-badge-wrap"><span class="ip-badge kipo">KIPO</span></div><div class="ip-title">Electronic Device and Method for Proving Private Information Between Individuals Based on Blockchain Technology</div><div class="ip-num">10-2490640</div></div>
+        <div class="ip-row"><div class="ip-badge-wrap"><span class="ip-badge kipo">KIPO</span></div><div class="ip-title">Vehicle Remote Control and Vehicle Information Management Method Using Vehicle-DID Based on Blockchain Networks</div><div class="ip-num">10-2023-0051359</div></div>
+      </div>
+    </div>
+
+    <!-- Design Patents -->
+    <div style="margin-bottom:64px;">
+      <div style="font-family:'Space Mono',monospace;font-size:10px;letter-spacing:0.2em;text-transform:uppercase;color:var(--blue);margin-bottom:24px;display:flex;align-items:center;gap:12px;">
+        <span style="display:block;width:20px;height:1px;background:var(--blue);"></span>Design Patents
+      </div>
+      <div style="display:flex;flex-direction:column;gap:1px;background:var(--gray-line);">
+        <div class="ip-row"><div class="ip-badge-wrap"><span class="ip-badge kipo">KIPO</span></div><div class="ip-title">Devices with a rollable display</div><div class="ip-num">30-2024-0004156 / 30-2024-0004155</div></div>
+        <div class="ip-row"><div class="ip-badge-wrap"><span class="ip-badge kipo">KIPO</span><span class="ip-badge uspto">USPTO</span><span class="ip-badge" style="background:rgba(255,100,50,0.15);color:#ff6432;border-color:rgba(255,100,50,0.3);">CNIPA</span></div><div class="ip-title">Mobile phone device (Newnal Phone V1)</div><div class="ip-num">30-2025-0015837 / 30-2025-0015838 / US-30/015605 / 2025304523549</div></div>
+        <div class="ip-row"><div class="ip-badge-wrap"><span class="ip-badge kipo">KIPO</span><span class="ip-badge uspto">USPTO</span></div><div class="ip-title">Mobile phone device (Newnal Phone Light)</div><div class="ip-num">30-2025-0029489 / US-30/018308</div></div>
+        <div class="ip-row"><div class="ip-badge-wrap"><span class="ip-badge kipo">KIPO</span><span class="ip-badge uspto">USPTO</span></div><div class="ip-title">Newnal Metacircle UI design — Homescreen, Lockscreen</div><div class="ip-num">30-2025-28631 / US-30/015673</div></div>
+      </div>
+    </div>
+
+    <!-- Trademarks -->
+    <div>
+      <div style="font-family:'Space Mono',monospace;font-size:10px;letter-spacing:0.2em;text-transform:uppercase;color:var(--blue);margin-bottom:24px;display:flex;align-items:center;gap:12px;">
+        <span style="display:block;width:20px;height:1px;background:var(--blue);"></span>Trademarks
+      </div>
+      <div style="display:flex;flex-direction:column;gap:1px;background:var(--gray-line);">
+        <div class="ip-row"><div class="ip-title" style="font-size:16px;font-weight:700;">Newnal</div><div class="ip-desc">Class 09, 35, 36, 38, 42</div><div class="ip-num">US 98/180961 · EP 18943637 · WIPO 1773137 · KR 40-2023-0167191</div></div>
+        <div class="ip-row"><div class="ip-title" style="font-size:16px;font-weight:700;">Metacircle</div><div class="ip-desc">Class 9</div><div class="ip-num">US 99/290317 · EP 19219923 · KR 40-2025-0125955</div></div>
+        <div class="ip-row"><div class="ip-title" style="font-size:16px;font-weight:700;">COOV</div><div class="ip-desc">Class 09, 42</div><div class="ip-num">KR 40-2021-0065186 / 40-2021-0065182</div></div>
+        <div class="ip-row"><div class="ip-title" style="font-size:16px;font-weight:700;">InfraBlockchain</div><div class="ip-desc">Class 42</div><div class="ip-num">KR 40-2023-0122739</div></div>
+        <div class="ip-row"><div class="ip-title" style="font-size:16px;font-weight:700;">BlockChat</div><div class="ip-desc">Class 09, 38, 42</div><div class="ip-num">KR 40-2022-0139282 · WIPO 1710775 · HK 306125436</div></div>
+        <div class="ip-row"><div class="ip-title" style="font-size:16px;font-weight:700;">BLOCKCHAIN CHIP — Powered by Blockchain Labs</div><div class="ip-desc">Class 9</div><div class="ip-num">KR 40-2023-0100452</div></div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">Newnal</div>
+  <div class="footer-copy">© 2025 Newnal. All rights reserved.</div>
+</footer>
+
+<script>
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) e.target.classList.add('visible');
+    });
+  }, { threshold: 0.08 });
+  document.querySelectorAll('.rf-section').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>

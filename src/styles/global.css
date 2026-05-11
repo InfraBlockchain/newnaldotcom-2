@@ -1,0 +1,157 @@
+/* ── Newnal AIOS Global Styles ── */
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  background: #000;
+  color: #fff;
+  font-family: 'Google Sans', 'Noto Sans KR', sans-serif;
+  font-weight: 400;
+  overflow-x: hidden;
+}
+
+/* ── Keyframes ── */
+@keyframes spin    { to { transform: rotate(360deg); } }
+@keyframes fadeUp  { from { opacity:0; transform:translateY(32px); } to { opacity:1; transform:translateY(0); } }
+@keyframes ticker  { from { transform:translateX(0); } to { transform:translateX(-50%); } }
+@keyframes pulse   {
+  0%,100% { box-shadow: 0 0 0 0 #4D9FFF66; }
+  50%     { box-shadow: 0 0 0 8px #4D9FFF00; }
+}
+@keyframes dotBlink {
+  0%, 100% { color: #FFFFFF2E; }
+  50%      { color: #4D9FFF; }
+}
+
+/* ── 반응형 줄바꿈 유틸리티 ── */
+.br-pc    { display: block; }
+.br-mo    { display: none; }
+.keep-all { word-break: keep-all; }
+
+/* ── 애니메이션 클래스 ── */
+.aios-eyebrow  { opacity:0; animation: fadeUp 0.8s 0.2s forwards; }
+.aios-hero-h1  { opacity:0; animation: fadeUp 0.8s 0.4s forwards; }
+.aios-hero-sub { opacity:0; animation: fadeUp 0.8s 0.6s forwards; }
+
+/* ── 인터랙션 ── */
+.aios-btn-pri:hover  { opacity:0.85; }
+.aios-btn-sec:hover  { border-color:#4D9FFF !important; color:#4D9FFF !important; }
+.aios-nav-cta:hover  { opacity:0.85; }
+.aios-signal:hover   { border-color:#4D9FFF4D !important; transform:translateX(6px); }
+.aios-ip-row:hover   { background:#1a1a1a !important; }
+.aios-link-icon      { color: #FFFFFF33; transition: color 0.2s; }
+.aios-ip-row:hover .aios-link-icon { color: #4D9FFF99; }
+
+/* ── 레이아웃 ── */
+.aios-hero-text-mobile { display: none; }
+
+/* ── Mobile hero bottom gradient overlay ── */
+.aios-hero-mob-grad {
+  display: none;
+  pointer-events: none;
+}
+
+/* ── Hero 영상: 기본은 데스크톱 영상만 표시 ── */
+.aios-video-desktop { display: block; }
+.aios-video-mobile  { display: none; }
+
+/* ── Hero 폰트 (Base: 1440px+) ── */
+.aios-hero-h1   { font-size: 82px; line-height: 1.05; }
+.aios-hero-sub  { font-size: 20px; line-height: 1.6; }
+.aios-hero-desc { font-size: 14px; line-height: 1.6; }
+
+/* ── 1024px: 랩탑 / 태블릿 가로 ── */
+@media (max-width: 1024px) {
+  .aios-hero  { gap: 24px !important; padding: 120px 40px 80px !important; }
+  .aios-inner { padding: 0 40px !important; }
+  .aios-hero-h1  { font-size: 64px; }
+  .aios-hero-sub { font-size: 18px; }
+}
+
+/* ── 768px: 태블릿 세로 / 모바일 분기점 ── */
+@media (max-width: 768px) {
+  .br-pc { display: none; }
+  .br-mo { display: block; }
+
+  .aios-nav    { padding: 20px 24px !important; }
+  .aios-hero   { grid-template-columns: 1fr !important; padding: 100px 24px 60px !important; gap: 40px !important; }
+  .aios-hero-r { width: 100% !important; margin-top: 0; }
+  .aios-hero-left {
+    text-align: center !important;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .aios-eyebrow  { justify-content: center !important; margin-bottom: 40px !important; }
+  .aios-hero-h1  { display: none !important; }
+  .aios-hero-text-desktop { display: none !important; }
+  .aios-hero-text-mobile  { display: block !important; text-align: center; }
+  .aios-hero-sub {
+    text-align: center !important;
+    font-size: 18px;
+    margin-left: auto !important;
+    margin-right: auto !important;
+  }
+  .aios-hero-desc {
+    text-align: center !important;
+    font-size: 14px;
+    margin-left: auto !important;
+    margin-right: auto !important;
+  }
+  .aios-inner   { padding: 0 24px !important; }
+  .aios-cta     { padding: 100px 24px !important; }
+  .aios-footer  { flex-direction: column !important; gap: 20px !important; text-align: center !important; }
+  .aios-tl      { flex-direction: column !important; gap: 32px !important; }
+  .aios-tl-line { display: none !important; }
+  .aios-section { padding: 80px 0 !important; }
+  .aios-grid3   { grid-template-columns: 1fr !important; }
+  .aios-flow5   { grid-template-columns: 1fr !important; }
+
+  /* Hero 하단 그라디언트 (모바일 전용) — 뷰포트 하단 40% 고정 */
+  .aios-hero-mob-grad {
+    display: block;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 40vh;
+    background: linear-gradient(to bottom, transparent 0%, #000000 100%);
+    z-index: 5;
+    pointer-events: none;
+    transition: opacity 0.25s ease;
+  }
+
+  /* Hero 영상: 모바일 영상 표시 */
+  .aios-video-desktop { display: none; }
+  .aios-video-mobile  { display: block; }
+}
+
+/* ── 425px: 큰 모바일 (아이폰 Pro Max 등) ── */
+@media (max-width: 425px) {
+  .aios-hero-h1  { font-size: 42px; }
+  .aios-hero-sub { font-size: 16px; }
+  .aios-cta      { padding: 80px 20px !important; }
+  .aios-ip-row {
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    gap: 16px !important;
+    padding: 24px 20px !important;
+  }
+  .aios-ip-badges { justify-content: flex-start !important; width: 100% !important; }
+}
+
+/* ── 375px: 일반 모바일 (아이폰 X, 13, 14 등) ── */
+@media (max-width: 375px) {
+  .aios-hero-h1  { font-size: 38px; }
+  .aios-hero-sub { font-size: 15px; }
+  .aios-nav      { padding: 16px 20px !important; }
+  .aios-section  { padding: 60px 0 !important; }
+  .aios-hero-desc { font-size: 13px; }
+}
+
+/* ── 320px: 작은 모바일 (아이폰 SE 등) ── */
+@media (max-width: 320px) {
+  .aios-hero  { padding: 80px 16px 40px !important; }
+  .aios-hero-h1  { font-size: 32px; }
+  .aios-hero-sub { font-size: 14px; }
+  .aios-inner    { padding: 0 16px !important; }
+}
