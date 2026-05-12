@@ -642,10 +642,10 @@ function StripBanner() {
         </div>
         <div style={{ display: "flex", flexDirection: "column" }}>
           <div style={{ fontFamily: "'Google Sans', sans-serif", fontWeight: 400, fontSize: 22, lineHeight: "28px", color: "#000", textTransform: "uppercase" as const }}>
-            MAY 18, 2026 | 4:30-6:30PM
+            - MAY 18, 2026 | 4:30-6:30PM
           </div>
           <div style={{ fontFamily: "'Google Sans', sans-serif", fontWeight: 400, fontSize: 22, lineHeight: "28px", color: "#000", textTransform: "uppercase" as const }}>
-            STANFORD SIMONYI CONFERENCE CENTER
+            - STANFORD SIMONYI CONFERENCE CENTER
           </div>
         </div>
       </div>
