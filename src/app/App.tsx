@@ -772,7 +772,7 @@ function Nav() {
           Keynote
         </a>
         <a
-          href="https://columns-smoky.vercel.app/kr/column-4.html"
+          href="https://column.newnal.com/kr/column-1.html"
           target="_blank"
           rel="noopener noreferrer"
           className="aios-btn-pri"
