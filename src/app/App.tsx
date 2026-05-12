@@ -76,6 +76,8 @@ const GLOBAL_CSS = `
     .br-mo { display: block; }
     
     .aios-nav    { padding: 20px 24px !important; }
+    .aios-nav-btns { gap: 8px !important; }
+    .aios-nav-btns a { padding: 6px 14px !important; font-size: 13px !important; }
     .aios-hero   { grid-template-columns: 1fr !important; padding: 100px 24px 60px !important; gap: 40px !important; }
     .aios-hero-r { width: 100% !important; margin-top: 0; }
     
@@ -127,6 +129,7 @@ const GLOBAL_CSS = `
     .aios-hero-h1 { font-size: 38px; }
     .aios-hero-sub { font-size: 15px; }
     .aios-nav { padding: 16px 20px !important; }
+    .aios-nav-btns a { padding: 6px 12px !important; font-size: 12px !important; }
     .aios-section { padding: 60px 0 !important; }
     .aios-hero-desc { font-size: 13px; }
   }
@@ -136,6 +139,32 @@ const GLOBAL_CSS = `
     .aios-hero-h1 { font-size: 32px; }
     .aios-hero-sub { font-size: 14px; }
     .aios-inner { padding: 0 16px !important; }
+  }
+  /* ── 띠배너 반응형 ── */
+  .strip-banner { flex-direction: row; gap: 80px; }
+  .strip-banner-title { font-size: 48px; line-height: 48px; font-weight: 400; }
+  .strip-banner-meta { font-size: 28px; }
+  .strip-banner-meta-mo { display: none; }
+  .strip-banner-venue-row { display: none; }
+  
+  @media (max-width: 768px) {
+    .strip-banner { flex-direction: column !important; gap: 20px !important; padding: 20px !important; align-items: flex-start !important; }
+    .strip-banner-title { font-size: 30px !important; line-height: 37.2px !important; font-weight: 500 !important; text-align: center; align-self: stretch; }
+    .strip-banner-meta { font-size: 20px !important; line-height: 25px !important; text-align: left; }
+    .strip-banner-meta-web { display: none !important; }
+    .strip-banner-meta-mo { display: flex !important; flex-direction: column !important; gap: 0 !important; }
+    .strip-banner-venue-row { display: flex !important; gap: 20px !important; font-size: 16px !important; line-height: 20px !important; }
+    .strip-banner-btn { width: 100% !important; justify-content: space-between !important; padding: 16px !important; font-size: 22px !important; line-height: 27.5px !important; }
+    .strip-banner-btn-web { display: none !important; }
+    .strip-banner-btn-mo { display: inline !important; }
+    .strip-banner-icon { width: 40px !important; height: 40px !important; }
+  }
+
+  @media (max-width: 375px) {
+    .strip-banner-title { font-size: 26px !important; line-height: 32px !important; }
+    .strip-banner-meta { font-size: 18px !important; }
+    .strip-banner-venue-row { font-size: 14px !important; }
+    .strip-banner-btn { font-size: 18px !important; }
   }
 `;
 
@@ -568,6 +597,113 @@ const IconCard = () => (
   </svg>
 );
 
+/* ── STRIP BANNER ── */
+function StripBanner() {
+  return (
+    <a
+      href="https://conference-page-inky.vercel.app/"
+      target="_blank"
+      rel="noopener noreferrer"
+      className="strip-banner"
+      style={{
+        position: "fixed",
+        bottom: 0,
+        left: 0,
+        right: 0,
+        zIndex: 100,
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "space-between",
+        padding: 20,
+        gap: 80,
+        background: "#00A4FF",
+        textDecoration: "none",
+        cursor: "pointer",
+      }}
+    >
+      <div style={{ display: "flex", flexDirection: "column", gap: 8, flex: 1 }}>
+        <div
+          className="strip-banner-title"
+          style={{
+            fontFamily: "'Google Sans', sans-serif",
+            fontWeight: 400,
+            fontSize: 48,
+            lineHeight: "48px",
+            color: "#000",
+          }}
+        >
+          2026 Exploring the Path to Native AI at Stanford
+        </div>
+        <div
+          className="strip-banner-meta"
+          style={{
+            display: "flex",
+            gap: 20,
+            fontFamily: "'Google Sans', sans-serif",
+            fontWeight: 400,
+            fontSize: 28,
+            lineHeight: "35px",
+            color: "#000",
+            textTransform: "uppercase",
+          }}
+        >
+          <span className="strip-banner-meta-web" style={{ display: "flex", gap: 20 }}>
+            <span>MAY 18, 2026</span>
+            <span>/</span>
+            <span>4:30 PM – 6:30 PM</span>
+            <span>/</span>
+            <span>STANFORD SIMONYI CONFERENCE CENTER</span>
+          </span>
+          <span className="strip-banner-meta-mo" style={{ display: "none", flexDirection: "column" }}>
+            <span style={{ display: "flex", gap: 20 }}>
+              <span>MAY 18, 2026</span>
+              <span>/</span>
+              <span>4:30 PM – 6:30 PM</span>
+            </span>
+            <span className="strip-banner-venue-row" style={{ display: "none", gap: 20 }}>
+              <span>@STANFORD</span>
+              <span>SIMONYI CONFERENCE CENTER</span>
+            </span>
+          </span>
+        </div>
+      </div>
+      <div
+        className="strip-banner-btn"
+        style={{
+          display: "flex",
+          alignItems: "center",
+          gap: 20,
+          padding: 20,
+          background: "#000",
+          color: "#fff",
+          fontFamily: "'Google Sans', sans-serif",
+          fontSize: 24,
+          fontWeight: 400,
+          lineHeight: "30px",
+          whiteSpace: "nowrap",
+          flexShrink: 0,
+        }}
+      >
+        <span>
+          <span className="strip-banner-btn-web">DETAILS OF<br />CONFERENCE</span>
+          <span className="strip-banner-btn-mo" style={{ display: "none" }}>DETAILS OF CONFERENCE</span>
+        </span>
+        <svg
+          className="strip-banner-icon"
+          width="48"
+          height="48"
+          viewBox="0 0 50 50"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path d="M9.05298 0.923096H48.653V40.5231" stroke="white" strokeWidth="1.84615"/>
+          <path d="M48.6528 0.923096L0.652832 48.9231" stroke="white" strokeWidth="1.84615"/>
+        </svg>
+      </div>
+    </a>
+  );
+}
+
 /* ── NAV ── */
 function Nav() {
   return (
@@ -599,6 +735,63 @@ function Nav() {
         }}
       >
         Newnal
+      </div>
+
+      <div className="aios-nav-btns" style={{ display: "flex", gap: 12 }}>
+        <a
+          href="https://keynote.newnal.com/"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="aios-btn-pri"
+          style={{
+            display: "inline-flex",
+            alignItems: "center",
+            justifyContent: "center",
+            height: 40,
+            padding: "6px 14px",
+            borderRadius: 4,
+            border: "none",
+            background: "#4D9FFF",
+            color: "#fff",
+            fontFamily: "'Google Sans', sans-serif",
+            fontSize: 14,
+            fontWeight: 400,
+            lineHeight: 1,
+            textTransform: "uppercase" as const,
+            textDecoration: "none",
+            cursor: "pointer",
+            transition: "opacity 0.2s",
+          }}
+        >
+          Keynote
+        </a>
+        <a
+          href="https://columns-smoky.vercel.app/kr/column-4.html"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="aios-btn-pri"
+          style={{
+            display: "inline-flex",
+            alignItems: "center",
+            justifyContent: "center",
+            height: 40,
+            padding: "6px 14px",
+            borderRadius: 4,
+            border: "none",
+            background: "#4D9FFF",
+            color: "#fff",
+            fontFamily: "'Google Sans', sans-serif",
+            fontSize: 14,
+            fontWeight: 400,
+            lineHeight: 1,
+            textTransform: "uppercase" as const,
+            textDecoration: "none",
+            cursor: "pointer",
+            transition: "opacity 0.2s",
+          }}
+        >
+          Founder Column
+        </a>
       </div>
     </nav>
   );
@@ -2255,6 +2448,7 @@ export default function App() {
           minHeight: "100vh",
         }}
       >
+        <StripBanner />
         <Nav />
         <Hero />
         <Section01 />
