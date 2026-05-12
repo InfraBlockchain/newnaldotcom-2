@@ -590,7 +590,7 @@ const IconCard = () => (
 function StripBanner() {
   return (
     <a
-      href="https://conference-page-inky.vercel.app/"
+      href="https://conference.newnal.com/"
       className="strip-banner"
       style={{
         position: "fixed",
