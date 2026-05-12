@@ -141,30 +141,19 @@ const GLOBAL_CSS = `
     .aios-inner { padding: 0 16px !important; }
   }
   /* ── 띠배너 반응형 ── */
-  .strip-banner { flex-direction: row; gap: 80px; }
-  .strip-banner-title { font-size: 48px; line-height: 48px; font-weight: 400; }
-  .strip-banner-meta { font-size: 28px; }
-  .strip-banner-meta-mo { display: none; }
-  .strip-banner-venue-row { display: none; }
+  .strip-banner-content-mo { display: none !important; }
+  .strip-banner-btn-mo { display: none !important; }
   
   @media (max-width: 768px) {
     .strip-banner { flex-direction: column !important; gap: 20px !important; padding: 20px !important; align-items: flex-start !important; }
-    .strip-banner-title { font-size: 30px !important; line-height: 37.2px !important; font-weight: 500 !important; text-align: center; align-self: stretch; }
-    .strip-banner-meta { font-size: 20px !important; line-height: 25px !important; text-align: left; }
-    .strip-banner-meta-web { display: none !important; }
-    .strip-banner-meta-mo { display: flex !important; flex-direction: column !important; gap: 0 !important; }
-    .strip-banner-venue-row { display: flex !important; gap: 20px !important; font-size: 16px !important; line-height: 20px !important; }
-    .strip-banner-btn { width: 100% !important; justify-content: space-between !important; padding: 16px !important; font-size: 22px !important; line-height: 27.5px !important; }
+    .strip-banner-content-web { display: none !important; }
+    .strip-banner-content-mo { display: flex !important; }
     .strip-banner-btn-web { display: none !important; }
-    .strip-banner-btn-mo { display: inline !important; }
-    .strip-banner-icon { width: 40px !important; height: 40px !important; }
+    .strip-banner-btn-mo { display: flex !important; }
   }
 
   @media (max-width: 375px) {
-    .strip-banner-title { font-size: 26px !important; line-height: 32px !important; }
-    .strip-banner-meta { font-size: 18px !important; }
-    .strip-banner-venue-row { font-size: 14px !important; }
-    .strip-banner-btn { font-size: 18px !important; }
+    .strip-banner-content-mo > div:first-child { font-size: 24px !important; line-height: 30px !important; }
   }
 `;
 
@@ -621,9 +610,9 @@ function StripBanner() {
         cursor: "pointer",
       }}
     >
-      <div style={{ display: "flex", flexDirection: "column", gap: 8, flex: 1 }}>
+      {/* ── 텍스트 영역 (Web) ── */}
+      <div className="strip-banner-content-web" style={{ display: "flex", flexDirection: "column", gap: 8, flex: 1 }}>
         <div
-          className="strip-banner-title"
           style={{
             fontFamily: "'Google Sans', sans-serif",
             fontWeight: 400,
@@ -634,44 +623,49 @@ function StripBanner() {
         >
           2026 Exploring the Path to Native AI at Stanford
         </div>
+        <div style={{ display: "flex", gap: 20, fontFamily: "'Google Sans', sans-serif", fontWeight: 400, fontSize: 28, lineHeight: "35px", color: "#000", textTransform: "uppercase" as const }}>
+          <span>MAY 18, 2026</span>
+          <span>/</span>
+          <span>4:30 PM – 6:30 PM</span>
+          <span>/</span>
+          <span>STANFORD SIMONYI CONFERENCE CENTER</span>
+        </div>
+      </div>
+
+      {/* ── 텍스트 영역 (Mobile) ── */}
+      <div className="strip-banner-content-mo" style={{ display: "none", flexDirection: "column", gap: 8, width: "100%" }}>
         <div
-          className="strip-banner-meta"
           style={{
-            display: "flex",
-            gap: 20,
             fontFamily: "'Google Sans', sans-serif",
-            fontWeight: 400,
-            fontSize: 28,
-            lineHeight: "35px",
+            fontWeight: 500,
+            fontSize: 30,
+            lineHeight: "37.2px",
             color: "#000",
-            textTransform: "uppercase",
+            textAlign: "center",
           }}
         >
-          <span className="strip-banner-meta-web" style={{ display: "flex", gap: 20 }}>
+          2026 Exploring the Path to Native AI at Stanford
+        </div>
+        <div style={{ display: "flex", flexDirection: "column" }}>
+          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", fontFamily: "'Google Sans', sans-serif", fontWeight: 400, fontSize: 20, lineHeight: "25px", color: "#000", textTransform: "uppercase" as const }}>
             <span>MAY 18, 2026</span>
             <span>/</span>
             <span>4:30 PM – 6:30 PM</span>
-            <span>/</span>
-            <span>STANFORD SIMONYI CONFERENCE CENTER</span>
-          </span>
-          <span className="strip-banner-meta-mo" style={{ display: "none", flexDirection: "column" }}>
-            <span style={{ display: "flex", gap: 20 }}>
-              <span>MAY 18, 2026</span>
-              <span>/</span>
-              <span>4:30 PM – 6:30 PM</span>
-            </span>
-            <span className="strip-banner-venue-row" style={{ display: "none", gap: 20 }}>
-              <span>@STANFORD</span>
-              <span>SIMONYI CONFERENCE CENTER</span>
-            </span>
-          </span>
+          </div>
+          <div style={{ display: "flex", gap: 20, alignItems: "center", fontFamily: "'Google Sans', sans-serif", fontWeight: 400, fontSize: 16, lineHeight: "20px", color: "#000", textTransform: "uppercase" as const }}>
+            <span>@STANFORD</span>
+            <span>SIMONYI CONFERENCE CENTER</span>
+          </div>
         </div>
       </div>
+
+      {/* ── 버튼 (Web: 2줄) ── */}
       <div
-        className="strip-banner-btn"
+        className="strip-banner-btn-web"
         style={{
           display: "flex",
           alignItems: "center",
+          justifyContent: "space-between",
           gap: 20,
           padding: 20,
           background: "#000",
@@ -684,18 +678,32 @@ function StripBanner() {
           flexShrink: 0,
         }}
       >
-        <span>
-          <span className="strip-banner-btn-web">DETAILS OF<br />CONFERENCE</span>
-          <span className="strip-banner-btn-mo" style={{ display: "none" }}>DETAILS OF CONFERENCE</span>
-        </span>
-        <svg
-          className="strip-banner-icon"
-          width="48"
-          height="48"
-          viewBox="0 0 50 50"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-        >
+        DETAILS OF<br />CONFERENCE
+        <svg width="48" height="48" viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M9.05298 0.923096H48.653V40.5231" stroke="white" strokeWidth="1.84615"/>
+          <path d="M48.6528 0.923096L0.652832 48.9231" stroke="white" strokeWidth="1.84615"/>
+        </svg>
+      </div>
+
+      {/* ── 버튼 (Mobile: 1줄, SPACE_BETWEEN, padding 16) ── */}
+      <div
+        className="strip-banner-btn-mo"
+        style={{
+          display: "none",
+          alignItems: "center",
+          justifyContent: "space-between",
+          width: "100%",
+          padding: 16,
+          background: "#000",
+          color: "#fff",
+          fontFamily: "'Google Sans', sans-serif",
+          fontSize: 22,
+          fontWeight: 400,
+          lineHeight: "27.5px",
+        }}
+      >
+        DETAILS OF CONFERENCE
+        <svg width="40" height="40" viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg">
           <path d="M9.05298 0.923096H48.653V40.5231" stroke="white" strokeWidth="1.84615"/>
           <path d="M48.6528 0.923096L0.652832 48.9231" stroke="white" strokeWidth="1.84615"/>
         </svg>
