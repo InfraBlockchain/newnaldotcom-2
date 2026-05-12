@@ -591,8 +591,6 @@ function StripBanner() {
   return (
     <a
       href="https://conference-page-inky.vercel.app/"
-      target="_blank"
-      rel="noopener noreferrer"
       className="strip-banner"
       style={{
         position: "fixed",
@@ -652,7 +650,7 @@ function StripBanner() {
             <span>/</span>
             <span>4:30 PM – 6:30 PM</span>
           </div>
-          <div style={{ display: "flex", gap: 20, alignItems: "center", fontFamily: "'Google Sans', sans-serif", fontWeight: 400, fontSize: 16, lineHeight: "20px", color: "#000", textTransform: "uppercase" as const }}>
+          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", fontFamily: "'Google Sans', sans-serif", fontWeight: 400, fontSize: 16, lineHeight: "20px", color: "#000", textTransform: "uppercase" as const }}>
             <span>@STANFORD</span>
             <span>SIMONYI CONFERENCE CENTER</span>
           </div>
