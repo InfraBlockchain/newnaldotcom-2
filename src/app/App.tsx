@@ -757,8 +757,8 @@ function Nav() {
             padding: "6px 14px",
             borderRadius: 4,
             border: "none",
-            background: "#4D9FFF",
-            color: "#fff",
+            background: "#00A4FF",
+            color: "#000",
             fontFamily: "'Google Sans', sans-serif",
             fontSize: 14,
             fontWeight: 400,
@@ -769,8 +769,7 @@ function Nav() {
             transition: "opacity 0.2s",
           }}
         >
-          Keynote
-        </a>
+          Keynote</a>
         <a
           href="https://column.newnal.com/kr/column-1.html"
           target="_blank"
@@ -784,8 +783,8 @@ function Nav() {
             padding: "6px 14px",
             borderRadius: 4,
             border: "none",
-            background: "#4D9FFF",
-            color: "#fff",
+            background: "#00A4FF",
+            color: "#000",
             fontFamily: "'Google Sans', sans-serif",
             fontSize: 14,
             fontWeight: 400,
