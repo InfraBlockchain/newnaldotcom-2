@@ -621,12 +621,8 @@ function StripBanner() {
         >
           2026 Exploring the Path to Native AI at Stanford
         </div>
-        <div style={{ display: "flex", gap: 20, fontFamily: "'Google Sans', sans-serif", fontWeight: 400, fontSize: 28, lineHeight: "35px", color: "#000", textTransform: "uppercase" as const }}>
-          <span>MAY 18, 2026</span>
-          <span>/</span>
-          <span>4:30 PM – 6:30 PM</span>
-          <span>/</span>
-          <span>STANFORD SIMONYI CONFERENCE CENTER</span>
+        <div style={{ fontFamily: "'Google Sans', sans-serif", fontWeight: 400, fontSize: 28, lineHeight: "35px", color: "#000", textTransform: "uppercase" as const }}>
+          MAY 18, 2026  4:30 PM – 6:30 PM  STANFORD SIMONYI CONFERENCE CENTER
         </div>
       </div>
 
@@ -645,14 +641,11 @@ function StripBanner() {
           2026 Exploring the Path to Native AI at Stanford
         </div>
         <div style={{ display: "flex", flexDirection: "column" }}>
-          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", fontFamily: "'Google Sans', sans-serif", fontWeight: 400, fontSize: 20, lineHeight: "25px", color: "#000", textTransform: "uppercase" as const }}>
-            <span>MAY 18, 2026</span>
-            <span>/</span>
-            <span>4:30 PM – 6:30 PM</span>
+          <div style={{ fontFamily: "'Google Sans', sans-serif", fontWeight: 400, fontSize: 20, lineHeight: "25px", color: "#000", textTransform: "uppercase" as const }}>
+            MAY 18, 2026  4:30 PM – 6:30 PM
           </div>
-          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", fontFamily: "'Google Sans', sans-serif", fontWeight: 400, fontSize: 16, lineHeight: "20px", color: "#000", textTransform: "uppercase" as const }}>
-            <span>@STANFORD</span>
-            <span>SIMONYI CONFERENCE CENTER</span>
+          <div style={{ fontFamily: "'Google Sans', sans-serif", fontWeight: 400, fontSize: 16, lineHeight: "20px", color: "#000", textTransform: "uppercase" as const }}>
+            STANFORD SIMONYI CONFERENCE CENTER
           </div>
         </div>
       </div>
