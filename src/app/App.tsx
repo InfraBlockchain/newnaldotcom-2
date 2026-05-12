@@ -641,10 +641,10 @@ function StripBanner() {
           2026 Exploring the Path to Native AI at Stanford
         </div>
         <div style={{ display: "flex", flexDirection: "column" }}>
-          <div style={{ fontFamily: "'Google Sans', sans-serif", fontWeight: 400, fontSize: 20, lineHeight: "26px", color: "#000", textTransform: "uppercase" as const }}>
+          <div style={{ fontFamily: "'Google Sans', sans-serif", fontWeight: 400, fontSize: 18, lineHeight: "24px", color: "#000", textTransform: "uppercase" as const }}>
             - MAY 18, 2026 | 4:30-6:30PM
           </div>
-          <div style={{ fontFamily: "'Google Sans', sans-serif", fontWeight: 400, fontSize: 20, lineHeight: "26px", color: "#000", textTransform: "uppercase" as const }}>
+          <div style={{ fontFamily: "'Google Sans', sans-serif", fontWeight: 400, fontSize: 18, lineHeight: "24px", color: "#000", textTransform: "uppercase" as const }}>
             - STANFORD SIMONYI CONFERENCE CENTER
           </div>
         </div>
