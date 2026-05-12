@@ -631,9 +631,9 @@ function StripBanner() {
         <div
           style={{
             fontFamily: "'Google Sans', sans-serif",
-            fontWeight: 500,
-            fontSize: 30,
-            lineHeight: "37.2px",
+            fontWeight: 700,
+            fontSize: 28,
+            lineHeight: "35px",
             color: "#000",
             textAlign: "center",
           }}
@@ -641,10 +641,10 @@ function StripBanner() {
           2026 Exploring the Path to Native AI at Stanford
         </div>
         <div style={{ display: "flex", flexDirection: "column" }}>
-          <div style={{ fontFamily: "'Google Sans', sans-serif", fontWeight: 400, fontSize: 20, lineHeight: "25px", color: "#000", textTransform: "uppercase" as const }}>
+          <div style={{ fontFamily: "'Google Sans', sans-serif", fontWeight: 400, fontSize: 24, lineHeight: "30px", color: "#000", textTransform: "uppercase" as const }}>
             MAY 18, 2026  4:30 PM – 6:30 PM
           </div>
-          <div style={{ fontFamily: "'Google Sans', sans-serif", fontWeight: 400, fontSize: 16, lineHeight: "20px", color: "#000", textTransform: "uppercase" as const }}>
+          <div style={{ fontFamily: "'Google Sans', sans-serif", fontWeight: 400, fontSize: 24, lineHeight: "30px", color: "#000", textTransform: "uppercase" as const }}>
             STANFORD SIMONYI CONFERENCE CENTER
           </div>
         </div>
