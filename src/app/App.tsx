@@ -631,14 +631,14 @@ function StripBanner() {
         <div
           style={{
             fontFamily: "'Google Sans', sans-serif",
-            fontWeight: 700,
-            fontSize: 28,
-            lineHeight: "35px",
+            fontWeight: 500,
+            fontSize: 36,
+            lineHeight: "42px",
             color: "#000",
             textAlign: "center",
           }}
         >
-          2026 Exploring the Path to Native AI at Stanford
+          2026 Exploring the Path<br />to Native AI at Stanford
         </div>
         <div style={{ display: "flex", flexDirection: "column" }}>
           <div style={{ fontFamily: "'Google Sans', sans-serif", fontWeight: 400, fontSize: 24, lineHeight: "30px", color: "#000", textTransform: "uppercase" as const }}>
