@@ -745,7 +745,7 @@ function Nav() {
 
       <div className="aios-nav-btns" style={{ display: "flex", gap: 12 }}>
         <a
-          href="https://keynote.newnal.com/"
+          href="https://keynote.newnal.com/v/4sGbG7ZxfBJRnfJbBPa8P?_b=1"
           target="_blank"
           rel="noopener noreferrer"
           className="aios-btn-pri"
