@@ -145,7 +145,7 @@ const GLOBAL_CSS = `
   .strip-banner-btn-mo { display: none !important; }
   
   @media (max-width: 768px) {
-    .strip-banner { flex-direction: column !important; gap: 20px !important; padding: 20px 20px 0 20px !important; align-items: flex-start !important; }
+    .strip-banner { flex-direction: column !important; gap: 12px !important; padding: 16px 16px 0 16px !important; align-items: flex-start !important; }
     .strip-banner-content-web { display: none !important; }
     .strip-banner-content-mo { display: flex !important; }
     .strip-banner-btn-web { display: none !important; }
@@ -153,7 +153,7 @@ const GLOBAL_CSS = `
   }
 
   @media (max-width: 375px) {
-    .strip-banner-content-mo > div:first-child { font-size: 22px !important; line-height: 28px !important; }
+    .strip-banner-content-mo > div:first-child { font-size: 18px !important; line-height: 22px !important; }
   }
 `;
 
@@ -627,13 +627,13 @@ function StripBanner() {
       </div>
 
       {/* ── 텍스트 영역 (Mobile) ── */}
-      <div className="strip-banner-content-mo" style={{ display: "none", flexDirection: "column", gap: 8, width: "100%" }}>
+      <div className="strip-banner-content-mo" style={{ display: "none", flexDirection: "column", gap: 6, width: "100%" }}>
         <div
           style={{
             fontFamily: "'Google Sans', sans-serif",
             fontWeight: 500,
-            fontSize: 32,
-            lineHeight: "38px",
+            fontSize: 26,
+            lineHeight: "30px",
             color: "#000",
             textAlign: "left",
           }}
@@ -641,10 +641,10 @@ function StripBanner() {
           2026 Exploring the Path to Native AI at Stanford
         </div>
         <div style={{ display: "flex", flexDirection: "column" }}>
-          <div style={{ fontFamily: "'Google Sans', sans-serif", fontWeight: 400, fontSize: 18, lineHeight: "24px", color: "#000", textTransform: "uppercase" as const }}>
+          <div style={{ fontFamily: "'Google Sans', sans-serif", fontWeight: 400, fontSize: 14, lineHeight: "19px", color: "#000", textTransform: "uppercase" as const }}>
             - MAY 18, 2026 (4:30-6:30 PM)
           </div>
-          <div style={{ fontFamily: "'Google Sans', sans-serif", fontWeight: 400, fontSize: 18, lineHeight: "24px", color: "#000", textTransform: "uppercase" as const }}>
+          <div style={{ fontFamily: "'Google Sans', sans-serif", fontWeight: 400, fontSize: 14, lineHeight: "19px", color: "#000", textTransform: "uppercase" as const }}>
             - STANFORD SIMONYI CONFERENCE CENTER
           </div>
         </div>
@@ -683,19 +683,19 @@ function StripBanner() {
           display: "none",
           alignItems: "center",
           justifyContent: "space-between",
-          width: "calc(100% + 40px)",
-          margin: "0 -20px 0 -20px",
-          padding: "16px 20px",
+          width: "calc(100% + 32px)",
+          margin: "0 -16px 0 -16px",
+          padding: "12px 16px",
           background: "#000",
           color: "#fff",
           fontFamily: "'Google Sans', sans-serif",
-          fontSize: 22,
+          fontSize: 18,
           fontWeight: 400,
-          lineHeight: "27.5px",
+          lineHeight: "22px",
         }}
       >
         DETAILS OF CONFERENCE
-        <svg width="40" height="40" viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <svg width="32" height="32" viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg">
           <path d="M9.05298 0.923096H48.653V40.5231" stroke="white" strokeWidth="1.84615"/>
           <path d="M48.6528 0.923096L0.652832 48.9231" stroke="white" strokeWidth="1.84615"/>
         </svg>
