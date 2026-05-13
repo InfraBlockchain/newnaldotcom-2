@@ -144,7 +144,7 @@ const GLOBAL_CSS = `
   .strip-banner-content-mo { display: none !important; }
   .strip-banner-btn-mo { display: none !important; }
   
-  @media (max-width: 768px) {
+  @media (max-width: 1024px) {
     .strip-banner { flex-direction: column !important; gap: 12px !important; padding: 16px 16px 0 16px !important; align-items: flex-start !important; }
     .strip-banner-content-web { display: none !important; }
     .strip-banner-content-mo { display: flex !important; }
@@ -765,7 +765,7 @@ function Nav() {
         >
           Keynote</a>
         <a
-          href="https://column.newnal.com/kr/column-1.html"
+          href="https://column.newnal.com/"
           target="_blank"
           rel="noopener noreferrer"
           className="aios-btn-pri"
