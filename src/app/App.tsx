@@ -2447,7 +2447,7 @@ export default function App() {
           minHeight: "100vh",
         }}
       >
-        <StripBanner />
+        {/* <StripBanner /> */}
         <Nav />
         <Hero />
         <Section01 />
